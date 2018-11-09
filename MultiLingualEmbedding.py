@@ -26,7 +26,7 @@ def plot_with_labels(low_dim_embs, labels, filename='tsne.png'):
     plt.savefig(filename)
     #plt.show()
 
-# Loading the vectors using fasttext in en,fr and de
+# Loading the vectors using fasttext in en,fr and de, default lang = 'en'
 
 ftEnglish = FastTextEmbedding(default='zero')
 #ftFrench = FastTextEmbedding(lang='fr', show_progress=True, default='zero')
@@ -40,15 +40,16 @@ deenDictFile = "E:/Data/Translation/trans-dict/de-en.txt"
 endeDictFile = 'E:/Data/Translation/trans-dict/en-de.txt'
 
 #open file to write the embeddings from dict
-#embedFile = open("de-en-EmbeddingsFromDict.csv","w")
+embedFile = open("de-en-EmbeddingsFromDict.csv","w", encoding='utf-8')
 
 #process the dictionaries and get the appropriate word embeddings
-#use zero encodings for out of vocabulary words. Store them in a dict to look up already encoded words for word miss
+#use zero encodings for out of vocabulary words.
 
 with open(deenDictFile, 'r', encoding='latin-1') as csvf:
     csvreader = csv.reader(csvf,delimiter=' ')
     X = []
     Y = []
+    i=0
     for row in csvreader:
         #get the german encoding and the equivalent english encoding and print to de-en encoding file
         deEmb = ftGerman.emb(row[0])
@@ -63,6 +64,7 @@ with open(deenDictFile, 'r', encoding='latin-1') as csvf:
             embedFile.write("%f " % enNum)
         embedFile.write("\n")
         
+embedFile.close()  
 
 
 
