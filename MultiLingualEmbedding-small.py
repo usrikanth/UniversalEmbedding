@@ -40,14 +40,17 @@ deenDictFile = "E:/Data/Translation/trans-dict/de-en.txt"
 endeDictFile = 'E:/Data/Translation/trans-dict/en-de.txt'
 
 #open file to write the embeddings from dict
-embedFile = open("de-en-EmbeddingsFromDict.csv","w", encoding='utf-8')
+#embedFile = open("de-en-EmbeddingsFromDict.csv","w", encoding='utf-8')
+embedFile = open("de-en-EmbedSmall.csv","w", encoding='utf-8')
 
 #process the dictionaries and get the appropriate word embeddings
 #use zero encodings for out of vocabulary words.
 
-
 with open(deenDictFile, 'r', encoding='utf-8') as csvf:
     csvreader = csv.reader(csvf,delimiter=' ')
+    X = []
+    Y = []
+    i=0
     for row in csvreader:
         #get the german encoding and the equivalent english encoding and print to de-en encoding file
         deEmb = ftGerman.emb(row[0])
@@ -57,6 +60,8 @@ with open(deenDictFile, 'r', encoding='utf-8') as csvf:
         embedFile.write(",%s," % row[1])
         embedFile.write(" ".join(str(x) for x in enEmb))
         embedFile.write("\n")
+        if (i >=3200):
+            break
 embedFile.close()  
 
 
